@@ -1,0 +1,155 @@
+
+
+
+  
+<div>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+          <form class="d-flex">
+            <input matInput (keyup)="applyFilter($event)" class="form-control me-2" type="search" placeholder="Search Employee" aria-label="Search" #input>
+            <button class="btn btn-outline" type="submit">Employees</button>
+          </form>
+        </div>
+      </nav>
+    
+      <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+
+        <mat-row>
+            
+        </mat-row>
+        <ng-container matColumnDef="actions">
+            <mat-header-cell  mat-sort-header *matHeaderCellDef><mat-checkbox checked="true"></mat-checkbox>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element; let i=index">
+                <button *ngIf="element.empId !==EditRowId" mat-icon-button color="primary"  (click)="Edit(element.empId)">
+                    <i class="fa fa-pencil mat-icon"><mat-icon>create</mat-icon></i>
+                </button>
+
+                <button *ngIf="element.empId === EditRowId" mat-icon-button color="primary" (click)="save(element.empId)"  >
+                    <i class="fa fa-check mat-icon"><mat-icon>done</mat-icon></i>
+                </button>
+            </mat-cell>
+        </ng-container>
+        
+        
+
+        <ng-container matColumnDef="empId">
+            <mat-header-cell  mat-sort-header *matHeaderCellDef>Sno.</mat-header-cell>
+            <mat-cell *matCellDef="let element;">
+                <td *ngIf="element.empId !== EditRowId" >{{element.empId}}</td>
+                <td *ngIf="element.empId === EditRowId"><input type="text"  [(ngModel)]="element.empId"></td>
+             
+               
+               
+            </mat-cell>
+        </ng-container>
+
+        
+        <ng-container matColumnDef="empName">
+            <mat-header-cell  mat-sort-header *matHeaderCellDef>Name</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+				<!-- <mat-form-field floatLabel="never">
+					<input matInput placeholder="empName" [value]="element.empName" [(ngModel)]="element.empName">
+				</mat-form-field> -->
+                <td *ngIf="element.empId !== EditRowId" >{{element.empName}}</td>
+                <td *ngIf="element.empId === EditRowId"><input type="text"  [(ngModel)]="element.empName"></td>
+               
+               
+			</mat-cell>
+        </ng-container>
+
+
+
+
+        <ng-container matColumnDef="mobileNumber">
+            <mat-header-cell  mat-sort-header *matHeaderCellDef>mobileNumber</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <td *ngIf="element.empId !== EditRowId" >{{element.mobileNumber}}</td>
+                <td *ngIf="element.empId === EditRowId"><input type="text"  [(ngModel)]="element.mobileNumber"></td>
+               
+               
+            </mat-cell>
+        </ng-container>
+
+
+        <ng-container matColumnDef="emailId">
+            <mat-header-cell  mat-sort-header *matHeaderCellDef>EmailId</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <td *ngIf="element.empId !== EditRowId" >{{element.emailId}}</td>
+                <td *ngIf="element.empId === EditRowId"><input type="text"  [(ngModel)]="element.emailId"></td>
+               
+               
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="officeTransport">
+            <mat-header-cell  mat-sort-header *matHeaderCellDef>Transport</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <!-- <td *ngIf="element.empId !== EditRowId" >{{element.officeTransport}}</td>
+                <td *ngIf="element.empId === EditRowId"><input type="text"  [(ngModel)]="element.officeTransport"></td>
+                -->
+                <select>
+                    <option>{{element.officeTransport.Option1}}</option>
+                    <option>{{element.officeTransport.Option2}}</option>    
+                </select>
+               
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="cafeteriaSubscription">
+            <mat-header-cell  mat-sort-header *matHeaderCellDef>Cafeteria</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <!-- <td *ngIf="element.empId !== EditRowId"  >{{element.cafeteriaSubscription}}</td>
+                <td *ngIf="element.empId === EditRowId"><input type="text" [(ngModel)]="element.cafeteriaSubscription" ></td> -->
+                
+                    <select>
+                        <option >{{element.cafeteriaSubscription.Option1}}</option>
+                        <option>{{element.cafeteriaSubscription.Option2}}</option>
+                    </select>
+                
+
+               
+            </mat-cell>
+        </ng-container>
+
+        
+        <ng-container matColumnDef="Date">
+            <mat-header-cell  mat-sort-header *matHeaderCellDef>Date</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              
+                <mat-form-field>
+                    <input matInput [matDatepicker]="myDatePicker">
+                    <mat-datepicker-toggle [for]="myDatePicker" matSuffix></mat-datepicker-toggle>
+                    <mat-datepicker #myDatePicker></mat-datepicker>
+                </mat-form-field>
+               
+            </mat-cell>
+        </ng-container>
+        
+
+
+        <ng-container matColumnDef ="Button">
+            <mat-header-cell  mat-sort-header *matHeaderCellDef>Project</mat-header-cell>
+            <mat-cell *matCellDef="let element"><button mat-icon-button color="primary" title="info" mat-raised-button (click)="openDialog(element.project)"><mat-icon>info</mat-icon></button></mat-cell>
+        </ng-container>
+
+   
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+        <mat-header-cell class="mat-row" *matNoDataRow>
+            <mat-row class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</mat-row>
+        </mat-header-cell>
+
+    </mat-table>
+</div>
+
+
+<!-- 
+<div class="row">
+    <pre>
+        {{TableData | json}}
+    </pre>
+</div> -->
